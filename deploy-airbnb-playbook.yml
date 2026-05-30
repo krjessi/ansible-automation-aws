@@ -1,0 +1,7 @@
+---
+- name: Deploy Airbnb Application
+  hosts: targets
+  become: yes
+
+  roles:
+    - deploy-airbnb

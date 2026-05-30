@@ -1,0 +1,31 @@
+---
+- name: Create application directory
+  file:
+    path: /opt/airbnb-app
+    state: directory
+    mode: '0755'
+
+- name: Copy docker-compose file
+  copy:
+    src: docker-compose.yml
+    dest: /opt/airbnb-app/docker-compose.yml
+    mode: '0644'
+
+- name: Copy environment file
+  copy:
+    src: .env
+    dest: /opt/airbnb-app/.env
+    mode: '0600'
+
+- name: Start Docker Compose stack
+  shell: docker compose up -d
+  args:
+    chdir: /opt/airbnb-app
+
+- name: Verify running containers
+  shell: docker ps
+  register: docker_ps
+
+- name: Display running containers
+  debug:
+    var: docker_ps.stdout_lines

@@ -1,0 +1,23 @@
+---
+- name: Install Docker Compose Plugin
+  hosts: targets
+  become: yes
+
+  tasks:
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install Docker Compose Plugin
+      apt:
+        name: docker-compose-v2
+        state: present
+
+    - name: Verify Docker Compose
+      shell: docker compose version
+      register: compose_version
+
+    - name: Display Docker Compose Version
+      debug:
+        var: compose_version.stdout

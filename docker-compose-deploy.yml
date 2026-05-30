@@ -1,0 +1,12 @@
+---
+- name: Deploy Airbnb Application
+  hosts: targets
+  become: yes
+
+  tasks:
+
+    - name: Create deployment directory
+      file:
+        path: /opt/airbnb-app
+        state: directory
+        mode: '0755'

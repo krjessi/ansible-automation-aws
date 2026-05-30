@@ -1,0 +1,19 @@
+---
+- hosts: targets
+  become: yes
+
+  tasks:
+
+    - name: Pull Nginx image
+      community.docker.docker_image:
+        name: nginx
+        source: pull
+
+    - name: Run Nginx container
+      community.docker.docker_container:
+        name: nginx-container
+        image: nginx
+        state: started
+        restart_policy: always
+        published_ports:
+          - "8080:80"
