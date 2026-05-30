@@ -1,0 +1,15 @@
+# SSH Keys
+*.pem
+
+# Real inventory files
+inventory
+
+# Vault password files
+vault_pass.txt
+
+# Temporary files
+*.retry
+*.swp
+
+# OS files
+.DS_Store

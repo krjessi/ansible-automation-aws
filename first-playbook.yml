@@ -1,0 +1,16 @@
+---
+- name: My First Ansible Playbook
+  hosts: targets
+  become: true
+
+  tasks:
+
+    - name: Create directory
+      file:
+        path: /tmp/devops-demo
+        state: directory
+
+    - name: Create file
+      file:
+        path: /tmp/devops-demo/test.txt
+        state: touch

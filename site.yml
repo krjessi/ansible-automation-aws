@@ -1,0 +1,9 @@
+---
+- hosts: targets
+  become: true
+
+  roles:
+    - java
+    - nginx
+    - springboot
+    - docker
