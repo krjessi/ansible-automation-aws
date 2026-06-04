@@ -1,0 +1,22 @@
+---
+- hosts: targets
+  become: yes
+
+  tasks:
+
+    - name: Create node exporter container
+      community.docker.docker_container:
+        name: node-exporter
+        image: prom/node-exporter:latest
+
+        state: started
+        restart_policy: always
+
+        ports:
+          - "9100:9100"
+
+        command:
+          - '--path.rootfs=/host'
+
+        volumes:
+          - '/:/host:ro,rslave'

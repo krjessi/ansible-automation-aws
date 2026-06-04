@@ -4,16 +4,36 @@
 
   tasks:
 
-    - name: Pull Nginx image
-      community.docker.docker_image:
-        name: nginx
-        source: pull
+    - name: Create nginx config directory
+      file:
+        path: /opt/nginx
+        state: directory
 
-    - name: Run Nginx container
+    - name: Copy nginx config
+      copy:
+        src: nginx-config/default.conf
+        dest: /opt/nginx/default.conf
+
+    - name: Remove old nginx container
+      community.docker.docker_container:
+        name: nginx-container
+        state: absent
+
+    - name: Run nginx reverse proxy
       community.docker.docker_container:
         name: nginx-container
         image: nginx
         state: started
         restart_policy: always
+
         published_ports:
-          - "8080:80"
+          - "80:80"
+
+        volumes:
+          - /opt/nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+        networks:
+          - name: bridge
+
+        extra_hosts:
+          - host.docker.internal:host-gateway
